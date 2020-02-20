@@ -11,12 +11,14 @@ import SVGParser
 
 class MainTableViewController: UITableViewController {
     var paises : Welcome?
+    var datosPais : WelcomeElement?
 
     @IBOutlet var tablaPaises: UITableView!
    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    //    tableView.register(UINib(nibName: "MainTableViewController", bundle: nil), forCellReuseIdentifier: "celdaPais")
         getNpsData()
         tablaPaises.reloadData()
         
@@ -46,7 +48,6 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "celdaPais", for: indexPath) as! TableViewCells
         
-        DispatchQueue.main.async {
             if let country = self.paises{
                 cell.nombrePais.text = country[indexPath.section].name
                 if let urlFlag = country[indexPath.section].flag {
@@ -54,24 +55,26 @@ class MainTableViewController: UITableViewController {
                     if let url = URL(string: urlFlag) {
                         self.parseSVG(url) { image in
                                         cell.banderaPais.image = image
-                                   }
-                                }
+                        }
+                    }
                 }
             }
-        }
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedProgram = paises![indexPath.section]
+        guard let datosPais = self.paises?[indexPath.section] else {return}
+        self.datosPais = datosPais
+        performSegue(withIdentifier: "detallesPais", sender: self)
         
-        // Create an instance of PlayerTableViewController and pass the variable
-        let destinationVC = ViewController()
-        destinationVC.countryDetail = selectedProgram
-        
-        // Let's assume that the segue name is called playerSegue
-        // This will perform the segue and pre-load the variable for you to use
-        destinationVC.performSegue(withIdentifier: "detallesPais", sender: self)
+    }
+    
+    override func performSegue(withIdentifier identifier: String, sender: Any?) {
+        if identifier == "detallesPais" {
+            let vc = ViewController()
+            vc.countryDetail = self.datosPais
+        }
     }
     /*
     // Override to support conditional editing of the table view.
@@ -137,7 +140,7 @@ class MainTableViewController: UITableViewController {
     func parseSVG(_ data: Data, completionHandler: @escaping (UIImage) -> Void) {
         
         DispatchQueue.main.async {
-            SVGParser(xmlData: data).scaledImageWithSize(CGSize(width: 300, height: 300), completion: { image in
+            SVGParser(xmlData: data).scaledImageWithSize(CGSize(width: 100, height: 100), completion: { image in
                 if let img = image {
                     completionHandler(img)
                 }
@@ -148,7 +151,7 @@ class MainTableViewController: UITableViewController {
     func parseSVG(_ path: String, completionHandler: @escaping (UIImage) -> Void) {
         
         DispatchQueue.main.async {
-            SVGParser(contentsOfFile: path).scaledImageWithSize(CGSize(width: 300, height: 300), completion: { image in
+            SVGParser(contentsOfFile: path).scaledImageWithSize(CGSize(width: 100, height: 100), completion: { image in
                 if let img = image {
                     completionHandler(img)
                 }
@@ -159,7 +162,7 @@ class MainTableViewController: UITableViewController {
     func parseSVG(_ url: URL, completionHandler: @escaping (UIImage) -> Void) {
         
         DispatchQueue.main.async {
-            SVGParser(contentsOfURL: url).scaledImageWithSize(CGSize(width: 300, height: 300), completion: { image in
+            SVGParser(contentsOfURL: url).scaledImageWithSize(CGSize(width: 100, height: 100), completion: { image in
                 if let img = image {
                     completionHandler(img)
                 }
