@@ -66,16 +66,19 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let datosPais = self.paises?[indexPath.section] else {return}
         self.datosPais = datosPais
-        performSegue(withIdentifier: "detallesPais", sender: self)
+        performSegue(withIdentifier: "detallesPais", sender: TableViewCells.self)
         
     }
     
-    override func performSegue(withIdentifier identifier: String, sender: Any?) {
-        if identifier == "detallesPais" {
-            let vc = ViewController()
-            vc.countryDetail = self.datosPais
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detallesPais" {
+            if let destinationVC = segue.destination as? ViewController {
+                destinationVC.countryDetail = self.datosPais
+            }
+            
         }
     }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

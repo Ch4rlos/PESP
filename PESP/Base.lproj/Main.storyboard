@@ -140,6 +140,7 @@
                         <viewLayoutGuide key="safeArea" id="Ms4-I5-l3H"/>
                     </view>
                     <connections>
+                        <outlet property="countryName" destination="pQs-gt-w59" id="ZFv-eI-bDP"/>
                         <outlet property="tableView" destination="KIW-yX-xOE" id="oQP-wm-JXq"/>
                     </connections>
                 </viewController>

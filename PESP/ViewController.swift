@@ -16,15 +16,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return UITableViewCell()
     }
     
-    
+    @IBOutlet weak var countryName: UILabel!
     var countryDetail : WelcomeElement?
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         guard countryDetail != nil else {return}
-        print(countryDetail)
-        // Do any additional setup after loading the view.
+        
+        let name = countryDetail?.name
+        let capital = countryDetail?.capital
+        let area = countryDetail?.area
+        let population = countryDetail?.population
+        let borders = countryDetail?.borders
+        let currencies = countryDetail?.currencies
+        let cioc = countryDetail?.cioc
+        let region = countryDetail?.region     
+
+        countryName.text = name
+        
     }
     
 
