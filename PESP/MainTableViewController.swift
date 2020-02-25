@@ -12,6 +12,8 @@ import SVGParser
 class MainTableViewController: UITableViewController {
     var paises : Welcome?
     var datosPais : WelcomeElement?
+    var imagenBandera : UIImage?
+    var arrayPosition : Int = 0
 
     @IBOutlet var tablaPaises: UITableView!
    
@@ -48,17 +50,17 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "celdaPais", for: indexPath) as! TableViewCells
         
-            if let country = self.paises{
-                cell.nombrePais.text = country[indexPath.section].name
-                if let urlFlag = country[indexPath.section].flag {
-                    
-                    if let url = URL(string: urlFlag) {
-                        self.parseSVG(url) { image in
-                                        cell.banderaPais.image = image
-                        }
+        if let country = self.paises{
+            cell.nombrePais.text = country[indexPath.section].name
+            if let urlFlag = country[indexPath.section].flag {
+                
+                if let url = URL(string: urlFlag) {
+                    self.parseSVG(url) { image in
+                        cell.banderaPais.image = image
                     }
                 }
             }
+        }
         
         return cell
     }
@@ -66,7 +68,19 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let datosPais = self.paises?[indexPath.section] else {return}
         self.datosPais = datosPais
-        performSegue(withIdentifier: "detallesPais", sender: TableViewCells.self)
+        let banderaURL = self.datosPais?.flag!
+        
+        if let url = URL(string: banderaURL!) {
+            self.parseSVG(url) { image in
+                
+                self.imagenBandera = image
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.performSegue(withIdentifier: "detallesPais", sender: tableView.self )
+        }
+        
         
     }
     
@@ -74,6 +88,11 @@ class MainTableViewController: UITableViewController {
         if segue.identifier == "detallesPais" {
             if let destinationVC = segue.destination as? ViewController {
                 destinationVC.countryDetail = self.datosPais
+                let serialQueue = DispatchQueue(label: "com.test.mySerialQueue")
+                serialQueue.sync {
+                    destinationVC.bandera = self.imagenBandera
+                }
+                
             }
             
         }

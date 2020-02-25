@@ -8,16 +8,20 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var countryName: UILabel!
+    
+    @IBOutlet weak var detalleBandera: UIImageView!
+    @IBOutlet weak var countryName: UIButton!
+    
     var countryDetail : WelcomeElement?
     @IBOutlet weak var tableView: UITableView!
     var datos : [String:Any] = [:]
+    var bandera : UIImage?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         guard countryDetail != nil else {return}
-        
+
         let nombre = countryDetail?.name
         let dominio = countryDetail?.cioc
         let alfaCode = countryDetail?.alpha2Code
@@ -36,9 +40,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let códigoNumérico = countryDetail?.callingCodes
         let moneda = countryDetail?.currencies
         let traducciones = countryDetail?.translations
-        let imagenBandera = countryDetail?.flag
         
-        countryName.text = nombre
+        countryName.setTitle(nombre, for: .normal)
+        detalleBandera.image = bandera
         
         datos = ["Dominio":"\(dominio!)",
          "Codigo Alfa":"\(alfaCode!)",
