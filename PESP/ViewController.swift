@@ -64,6 +64,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @IBAction func countryMap(_ sender: Any) {
+        self.performSegue(withIdentifier: "goToMap", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToMap" {
+            if let destinationVC = segue.destination as? MapViewController {
+                destinationVC.longitud = (countryDetail?.latlng[1])!
+                
+                destinationVC.latitud = (countryDetail?.latlng[0])!
+                
+                
+            }
+            
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datos.count
     }

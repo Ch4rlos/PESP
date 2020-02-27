@@ -122,7 +122,7 @@
                                 <rect key="frame" x="184" y="312" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <segue destination="HwE-dh-8EG" kind="show" id="A0f-Rn-zyv"/>
+                                    <action selector="countryMap:" destination="dEa-j9-aEo" eventType="touchUpInside" id="YnX-ro-ueE"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -144,16 +144,17 @@
                         <outlet property="countryName" destination="BSY-H1-iJc" id="PiB-i3-5vg"/>
                         <outlet property="detalleBandera" destination="1cF-x3-W8x" id="TQV-BE-lnt"/>
                         <outlet property="tableView" destination="KIW-yX-xOE" id="oQP-wm-JXq"/>
+                        <segue destination="HwE-dh-8EG" kind="show" identifier="goToMap" id="lFH-pb-W59"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VxY-wX-4wW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3223.1884057971015" y="-20.089285714285712"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="rVE-Z1-9XJ">
             <objects>
-                <viewController id="HwE-dh-8EG" sceneMemberID="viewController">
+                <viewController id="HwE-dh-8EG" customClass="MapViewController" customModule="PESP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WPa-8j-aTG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -171,6 +172,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Aeu-h4-u6P"/>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="nqp-eU-DCk" id="PD5-H7-3xa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y8D-K6-Xl2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
